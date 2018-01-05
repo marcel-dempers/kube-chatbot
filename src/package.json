@@ -1,0 +1,16 @@
+{
+  "name": "chatbot",
+  "version": "1.0.0",
+  "description": "A Microsoft Chatbot",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Marcel Dempers",
+  "license": "ISC",
+  "dependencies": {
+    "botbuilder": "^3.11.0",
+    "botbuilder-teams": "^0.1.6",
+    "restify": "^6.2.3"
+  }
+}

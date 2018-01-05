@@ -1,0 +1,57 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: bots
+  labels:
+    name: bots
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: chatbot
+  namespace: bots
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2 
+  template:
+    metadata:
+      labels:
+        app: chatbot
+    spec:
+      restartPolicy: Always
+      dnsPolicy: ClusterFirst
+      containers:
+      - name: chatbot
+        image: aimvector/kube-chat-bot:1.0.0
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 3978
+        env:
+        - name: MICROSOFT_APP_ID
+          valueFrom:
+            secretKeyRef:
+              name: chatbot
+              key: MICROSOFT_APP_ID
+        - name: MICROSOFT_APP_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: chatbot
+              key: MICROSOFT_APP_PASSWORD
+      imagePullSecrets:
+      - name: registrykey
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: chatbot
+  namespace: bots
+spec:
+  type: LoadBalancer
+  selector:
+    app: chatbot
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3978
+
