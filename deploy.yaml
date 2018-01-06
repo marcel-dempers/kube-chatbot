@@ -38,8 +38,6 @@ spec:
             secretKeyRef:
               name: chatbot
               key: MICROSOFT_APP_PASSWORD
-      imagePullSecrets:
-      - name: registrykey
 ---
 kind: Service
 apiVersion: v1
